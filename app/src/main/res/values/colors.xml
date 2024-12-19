@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="actionBarColor">#2C2C2C</color>
+    <color name="ItemBack">#183a53</color>
+    <color name="SideMenuColor">#D9D9D9</color>
+    <color name="hintColor">#808080</color>
+    <color name="replyColor">#1E1E1E</color>
+</resources>

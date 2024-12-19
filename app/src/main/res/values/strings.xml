@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Fy-FoundYou the parent controll</string>
+    <string name="about">
+    <![CDATA[
+    About FoundYou<br />--------------<br /><b>FoundYou:</b> A Parent Controlling App<br /><b>Version:</b> 1.0.2<br /><br /><b>Purpose:</b><br />FoundYou helps parents track and monitor their child\'s safety by providing real-time location updates and parental controls.<br /><br /><b>Developer:</b><br />Developed by [Your Name/Company Name].<br />Contact: support@foundyou.com<br /><br /><b>Privacy:</b><br />Your privacy is important to us. For detailed information on how we handle your data, please read our <a href="link-to-privacy-policy">Privacy Policy</a>.<br /><br /><b>Terms:</b><br />By using this app, you agree to our <a href="link-to-terms">Terms and Conditions</a>.<br /><br /><b>Acknowledgments:</b><br />Built using Google Maps and Fused Location API.<br /><br />© 2024 FoundYou. All Rights Reserved.
+
+    ]]>
+</string>
+
+
+
+
+</resources>
