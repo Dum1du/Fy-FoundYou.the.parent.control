@@ -2,12 +2,50 @@
     <string name="app_name">Fy-FoundYou the parent controll</string>
     <string name="about">
     <![CDATA[
-    About FoundYou<br />--------------<br /><b>FoundYou:</b> A Parent Controlling App<br /><b>Version:</b> 1.0.2<br /><br /><b>Purpose:</b><br />FoundYou helps parents track and monitor their child\'s safety by providing real-time location updates and parental controls.<br /><br /><b>Developer:</b><br />Developed by [Your Name/Company Name].<br />Contact: support@foundyou.com<br /><br /><b>Privacy:</b><br />Your privacy is important to us. For detailed information on how we handle your data, please read our <a href="link-to-privacy-policy">Privacy Policy</a>.<br /><br /><b>Terms:</b><br />By using this app, you agree to our <a href="link-to-terms">Terms and Conditions</a>.<br /><br /><b>Acknowledgments:</b><br />Built using Google Maps and Fused Location API.<br /><br />© 2024 FoundYou. All Rights Reserved.
+    About FoundYou<br />--------------<br /><b>FoundYou:</b> A Parent Controlling App<br />
+    <b>Version:</b> 1.0<br /><br />
+    <b>Purpose:</b><br />FoundYou helps parents track and monitor their child\'s safety by providing real-time location updates and parental controls.
+    <br /><br /><b>Developer:</b><br />Developed by GhostByte.<br />
+    <b>Privacy:</b><br />Your privacy is important to us. For detailed information on how we handle your data, please read our <a href="https://dum1du.github.io/Fy-FoundYou.the.parent.controll/Privacy_Policy.html">Privacy Policy</a>.<br />
+    <br /><b>Terms:</b><br />By using this app, you agree to our <a href="https://dum1du.github.io/Fy-FoundYou.the.parent.controll/Terms_and_Conditions.html">Terms and Conditions</a>.<br /><br />
+    <b>Acknowledgments:</b><br />Built using Google Maps and Fused Location API.<br />
+    <br />© 2024 FoundYou. All Rights Reserved.
 
     ]]>
+    </string>
+    <string name="help">
+    <![CDATA[
+        <b>Frequently Asked Questions:</b><br />
+        <b>1. If I hide the app icon, how can I uninstall the app?</b><br />
+        If you&#39;ve hidden the app icon, you can uninstall it by going to your device&#39;s "Settings" > "Apps" > "Manage Apps" and then selecting "FoundYou" to uninstall it.<br /><br />
+
+        <b>2. Why hasn&#39;t the location been updated for a while?</b><br />
+        If the location hasn&#39;t updated for a long time, it could be because the device&#39;s connection or location services have been turned off. Also, if the phone is switched off, the app will not be able to update the location.<br /><br />
+
+        <b>3. Should I remove battery restrictions?</b><br />
+        Yes, removing battery restrictions is important. The app needs to run continuously, and if battery optimization is enabled, it might restrict the app&#39;s background activity. The app doesn&#39;t drain a lot of battery but will not work properly if the device&#39;s battery is low.<br /><br />
+
+        <b>4. Why isn&#39;t the app working properly?</b><br />
+        The app may not function properly if it doesn&#39;t have all the requested permissions. Please ensure all permissions are granted. If problems persist, try reinstalling the app and granting the necessary permissions.<br /><br />
+
+        <b>5. Will the app work on Huawei devices?</b><br />
+        Currently, the app might not work properly on some Huawei devices. We are working on a fix for future updates.<br /><br />
+
+        <b>6. Should I keep the app up to date?</b><br />
+        Yes, it&#39;s essential to keep the app updated to ensure you have the latest features and fixes. Check for updates regularly.<br /><br />
+
+        <b>For more information, see the About section.</b>
+    ]]>
 </string>
-
-
+    <string name="qricon">qrIcon</string>
+    <string name="abouteicon">abouteIcon</string>
+    <string name="helpicon">helpIcon</string>
+    <string name="qrcode">QRcode</string>
+    <string name="aboutText">About</string>
+    <string name="helpText">Help</string>
+    <string name="addbutton">addButton</string>
+    <string name="close">Close</string>
+    <string name="menubutton">menuButton</string>
 
 
 </resources>

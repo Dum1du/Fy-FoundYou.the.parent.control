@@ -1,51 +1,67 @@
 package com.ghost_byte.fy_foundyoutheparentcontroll;
 
-import android.animation.Animator;
 import android.animation.ObjectAnimator;
+import android.app.DownloadManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.OnBackPressedCallback;
-import androidx.activity.OnBackPressedDispatcher;
-import androidx.appcompat.app.ActionBar;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+
+
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    private RecyclerView recyclerView;
     private DataBaseHelper dataBaseHelper;
-    private AdupterMain adupterMain;
     private List<MainRecItemsData> userList;
-    private ImageView menuBtn, addBtn;
-    private LinearLayout sideMenu,action_bar,qrCode, about, contact;
+    private ImageView addBtn;
+    private LinearLayout sideMenu;
+    private LinearLayout about;
+    private LinearLayout help;
     private View shader;
-    private FrameLayout aboutApp;
-    private TextView aboutTextShow;
-    private Button closeAboutBtn;
+    private FrameLayout aboutApp, helpApp;
+    private Button closeAboutBtn, closeHelpBtn;
 
     private boolean isMenuOpened = false;
+
+    //update related
+    private static final String TAG = "AppUpdate";
+    private FirebaseFirestore db;
+    private String downloadUrl; // APKPure download URL
+    private boolean isMandatoryUpdate;
+    //private static final int
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,21 +74,24 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        qrCode = findViewById(R.id.qrLayer);
+
+        closeHelpBtn = findViewById(R.id.closeHelp);
+        TextView helpTextShow = findViewById(R.id.helpText);
+        helpApp = findViewById(R.id.helpSection);
+        LinearLayout qrCode = findViewById(R.id.qrLayer);
         about = findViewById(R.id.aboutLayer);
-        contact = findViewById(R.id.contactLayer);
-        action_bar = findViewById(R.id.actionBar);
-        aboutTextShow = findViewById(R.id.aboutText);
+        help = findViewById(R.id.helpLayer);
+        TextView aboutTextShow = findViewById(R.id.aboutText);
         shader = findViewById(R.id.shaderId);
 
-        //actuall showing layer sections
+        //actual showing about layer sections
         aboutApp = findViewById(R.id.aboutSection);
         closeAboutBtn = findViewById(R.id.closeAbout);
 
-        recyclerView = findViewById(R.id.recyclerView);
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        menuBtn = findViewById(R.id.menuBTN);
+        ImageView menuBtn = findViewById(R.id.menuBTN);
         addBtn = findViewById(R.id.addUserBTN);
         sideMenu = findViewById(R.id.sideMenu);
 
@@ -81,6 +100,12 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("HTMLString", Html.fromHtml(getString(R.string.about), Html.FROM_HTML_MODE_LEGACY).toString());
         aboutTextShow.setMovementMethod(LinkMovementMethod.getInstance());
+
+        // String hardcodedHtml = "This is a <b>bold</b> word.<br />This is a new line.";
+        helpTextShow.setText(Html.fromHtml(getString(R.string.help), Html.FROM_HTML_MODE_LEGACY));
+
+        Log.d("HTMLString", Html.fromHtml(getString(R.string.help), Html.FROM_HTML_MODE_LEGACY).toString());
+        helpTextShow.setMovementMethod(LinkMovementMethod.getInstance());
 
         //setcolor - statusbar
         Window window = getWindow();
@@ -92,46 +117,63 @@ public class MainActivity extends AppCompatActivity {
 
         loadData();
 
-        adupterMain = new AdupterMain(userList, this);
+        AdupterMain adupterMain = new AdupterMain(userList, this);
         recyclerView.setAdapter(adupterMain);
 
-        addBtn.setOnClickListener(V -> addActivity(addBtn));
-        qrCode.setOnClickListener(V -> showQr(qrCode));
-        about.setOnClickListener(V -> showAbout(about));
-        contact.setOnClickListener(V -> contactMethod(contact));
-        closeAboutBtn.setOnClickListener(V -> closeAboutSection(closeAboutBtn));
+        addBtn.setOnClickListener(_ -> addActivity(addBtn));
+        about.setOnClickListener(_ -> showAbout(about));
+        help.setOnClickListener(_ -> helpMethod(help));
+        closeAboutBtn.setOnClickListener(_ -> closeAboutSection(closeAboutBtn));
+        closeHelpBtn.setOnClickListener(_ -> closeHelpSection(closeHelpBtn));
 
-        menuBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isMenuOpened == false){
-                    showMenu(sideMenu);
-                    shader.setVisibility(View.VISIBLE);
-                    isMenuOpened = true;
+        PrefManager prefManager = new PrefManager(this);
 
-                    return;
-                }
+        if (prefManager.isFirstTimeLaunch()){
+            prefManager.setFirstTimeLaunch(false);
+            Intent intent = new Intent(MainActivity.this, QrActivity.class);
+            intent.putExtra("isFistTimeLaunch", true);
+            startActivity(intent);
+            finish();
+            return;
+        }
 
-                if (isMenuOpened == true){
-                    hideMenu(sideMenu);
-                    shader.setVisibility(View.GONE);
-                    isMenuOpened = false;
-
-                    return;
-                }
+        qrCode.setOnClickListener(_ -> {
+            if (isMenuOpened){
+                hideMenu(sideMenu);
+                shader.setVisibility(View.GONE);
+                isMenuOpened = false;
             }
+
+            Intent intent = new Intent(MainActivity.this, QrActivity.class);
+            intent.putExtra("isFistTimeLaunch", false);
+            startActivity(intent);
         });
 
-        shader.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        menuBtn.setOnClickListener(_ -> {
+            if (!isMenuOpened){
+                showMenu(sideMenu);
+                shader.setVisibility(View.VISIBLE);
+                isMenuOpened = true;
+
+                return;
+            }
+
+            if (isMenuOpened){
                 hideMenu(sideMenu);
                 shader.setVisibility(View.GONE);
                 isMenuOpened = false;
 
-                return;
             }
         });
+
+        shader.setOnClickListener(_ -> {
+            hideMenu(sideMenu);
+            shader.setVisibility(View.GONE);
+            isMenuOpened = false;
+
+        });
+
+
 
         //backpree event control
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
@@ -141,18 +183,23 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        db = FirebaseFirestore.getInstance();
+
+        checkForUpdates();
+
+    }
+
+    private void closeHelpSection(Button closeHelpBtn) {
+        helpApp.setVisibility(View.GONE);
     }
 
     private void closeAboutSection(Button closeAboutBtn) {
         aboutApp.setVisibility(View.GONE);
     }
 
-    private void contactMethod(View view) {
-        Toast.makeText(MainActivity.this,"contact pressed", Toast.LENGTH_LONG).show();
-    }
+    private void helpMethod(View view) {
 
-    private void showAbout(View view) {
-        aboutApp.setVisibility(View.VISIBLE);
+        helpApp.setVisibility(View.VISIBLE);
         if (isMenuOpened == true){
             hideMenu(sideMenu);
             shader.setVisibility(View.GONE);
@@ -163,20 +210,27 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void showQr(View view) {
-        Toast.makeText(MainActivity.this,"QR pressed", Toast.LENGTH_LONG).show();
+    private void showAbout(View view) {
+        aboutApp.setVisibility(View.VISIBLE);
+        if (isMenuOpened){
+            hideMenu(sideMenu);
+            shader.setVisibility(View.GONE);
+            isMenuOpened = false;
+
+        }
+
     }
 
+
     private void addActivity(View view) {
-        if (isMenuOpened == true){
+        if (isMenuOpened){
             hideMenu(sideMenu);
             shader.setVisibility(View.GONE);
             isMenuOpened = false;
         }
-
-        PrefManager prefManager = new PrefManager(this);
-        prefManager.setFirstTimeLaunch(true);
-        startActivity(new Intent(MainActivity.this, DataEntryActivity.class));
+        Intent intent = new Intent(MainActivity.this, DataEntryActivity.class);
+        intent.putExtra("isFistTimeLaunch", false);
+        startActivity(intent);
         finish();
 
     }
@@ -196,6 +250,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
+        assert cursor != null;
         cursor.close();
 
         }
@@ -209,5 +264,94 @@ public class MainActivity extends AppCompatActivity {
         ObjectAnimator animator = ObjectAnimator.ofFloat(sideMenu,"translationX", 0f,500f);
         animator.setDuration(300);
         animator.start();
+    }
+
+    private void checkForUpdates() {
+        db.collection("app_updates")
+                .document("latest_update")
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        double latestVersion = documentSnapshot.getDouble("version_code").doubleValue();
+                        downloadUrl = documentSnapshot.getString("download_url");
+                        isMandatoryUpdate = documentSnapshot.getBoolean("mandatory");
+
+                        // Compare with the current version
+
+                        double currentVersion = BuildConfig.VERSION_CODE;
+                        if (latestVersion > currentVersion) {
+                            showUpdatePopup();
+                        } else {
+                            Log.d(TAG, "No updates available.");
+                        }
+                    }
+                })
+                .addOnFailureListener(e -> Log.e(TAG, "Failed to fetch update info", e));
+    }
+
+    private void showUpdatePopup() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Update Available");
+        builder.setMessage("A new version of the app is available. Please update to the latest version.");
+
+        // Add Update button
+        builder.setPositiveButton("Update", (dialog, _) -> {
+            dialog.dismiss();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                downloadUpdate();
+            }
+        });
+
+        // Add Later button (only for non-mandatory updates)
+        if (!isMandatoryUpdate) {
+            builder.setNegativeButton("Later", (dialog, _) -> dialog.dismiss());
+        }
+
+        AlertDialog dialog = builder.create();
+        dialog.setCancelable(!isMandatoryUpdate);
+        dialog.show();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
+    private void downloadUpdate() {
+        DownloadManager downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+
+        if (downloadManager == null) {
+            Log.e(TAG, "DownloadManager not available");
+            return;
+        }
+
+        Uri uri = Uri.parse(downloadUrl);
+        DownloadManager.Request request = new DownloadManager.Request(uri);
+        request.setTitle("Downloading Update");
+        request.setDescription("Please wait while the update is downloaded.");
+        request.setDestinationInExternalFilesDir(this, Environment.DIRECTORY_DOWNLOADS, "app_update.apk");
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+
+        long downloadId = downloadManager.enqueue(request);
+
+        // Monitor download completion
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            registerReceiver(new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
+                    if (id == downloadId) {
+                        Log.d(TAG, "Download completed");
+                        installUpdate();
+                    }
+                }
+            }, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE), Context.RECEIVER_NOT_EXPORTED);
+        }
+    }
+
+    private void installUpdate() {
+        File apkFile = new File(getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), "app_update.apk");
+        Uri apkUri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".provider", apkFile);
+
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setDataAndType(apkUri, "application/vnd.android.package-archive");
+        intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        startActivity(intent);
     }
 }

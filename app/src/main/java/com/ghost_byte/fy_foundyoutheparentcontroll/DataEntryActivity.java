@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -40,13 +41,20 @@ public class DataEntryActivity extends AppCompatActivity {
         uniqueCode = findViewById(R.id.uniqueCOdeEditText);
         saveBTN = findViewById(R.id.addUserBTN);
 
-        // First-time launch check
-        if (prefManager.isFirstTimeLaunch()) {
-            prefManager.setFirstTimeLaunch(false);
-        } else {
-            startActivity(new Intent(DataEntryActivity.this, MainActivity.class));
-            finish();
-        }
+        boolean isFIrstTIme = getIntent().getBooleanExtra("isFistTimeLaunch", false);
+
+        getOnBackPressedDispatcher().addCallback(new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+
+                if (isFIrstTIme){
+                    finishAffinity();
+                }else {
+                    startActivity(new Intent(DataEntryActivity.this, MainActivity.class));
+                }
+
+            }
+        });
 
         // Save users
         saveBTN.setOnClickListener(new View.OnClickListener() {
