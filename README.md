@@ -43,26 +43,22 @@ A parental control application designed to help parents  track their children's 
 
 ## Privacy Policy
 
-Our privacy policy explains how user data is collected, stored, and used. [Read it here](https://your-username.github.io/your-repo-name/privacy-policy.html).
+Our privacy policy explains how user data is collected, stored, and used. [Read it here](https://github.com/Dum1du/Fy-FoundYou.the.parent.controll/blob/main/docs/Privacy_Policy.html).
 
 ## Terms and Conditions
 
-Please review our terms and conditions [here](https://your-username.github.io/your-repo-name/terms-conditions.html).
+Please review our terms and conditions [here](https://github.com/Dum1du/Fy-FoundYou.the.parent.controll/blob/main/docs/Terms_and_Conditions.html).
 
-## Contributing
-
-We welcome contributions to the project!  
-Please refer to our [CONTRIBUTING.md](CONTRIBUTING.md) file for guidelines on submitting pull requests, reporting issues, and more.
 
 ## Version History
 
 ### 1.0.0
 - Initial release
-- Features: live location tracking, app usage monitoring, and reports generation
+- Features: live location tracking
 
 ## Authors
 
-- **Your Name** - Creator and Initial Development - [YourGitHubUsername](https://github.com/YourGitHubUsername)
+- **Your Name** - Creator and Initial Development - [Dum1du](https://github.com/Dum1du)
 
 ## License
 
