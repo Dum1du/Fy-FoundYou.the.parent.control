@@ -30,6 +30,10 @@ android {
         sourceCompatibility = JavaVersion.VERSION_22
         targetCompatibility = JavaVersion.VERSION_22
     }
+
+    buildFeatures {
+        buildConfig = true
+    }
 }
 
 dependencies {
@@ -43,7 +47,7 @@ dependencies {
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 
-    implementation ("com.google.android.gms:play-services-maps:18.0.0")
+    implementation ("com.google.android.gms:play-services-maps:19.0.0")
     // https://mvnrepository.com/artifact/com.google.firebase/firebase-firestore
     implementation("com.google.firebase:firebase-firestore:25.1.0")
 

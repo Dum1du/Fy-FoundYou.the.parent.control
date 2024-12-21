@@ -55,14 +55,16 @@
             android:layout_height="40dp"
             android:layout_gravity="center"
             android:layout_marginEnd="10dp"
+            android:contentDescription="@string/addbutton"
             android:src="@drawable/add_icon" />
 
         <ImageView
             android:id="@+id/menuBTN"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_gravity="center"
             android:layout_marginEnd="10dp"
+            android:contentDescription="@string/menubutton"
             android:onClick="showMenu"
             android:src="@drawable/menu_icon" />
 
@@ -89,6 +91,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/qricon"
                 android:src="@drawable/qr_code_2_24"
                 />
 
@@ -96,7 +99,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="5dp"
-                android:text="QRcode"
+                android:text="@string/qrcode"
                 android:textSize="18sp"
                 android:textColor="@color/actionBarColor"/>
 
@@ -112,6 +115,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/abouteicon"
                 android:src="@drawable/info_24"
                 />
 
@@ -119,14 +123,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="5dp"
-                android:text="About"
+                android:text="@string/aboutText"
                 android:textSize="18sp"
                 android:textColor="@color/actionBarColor"/>
 
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/contactLayer"
+            android:id="@+id/helpLayer"
             android:padding="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -135,6 +139,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/helpicon"
                 android:src="@drawable/contact_support_24"
                 />
 
@@ -142,7 +147,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="5dp"
-                android:text="Contact Us"
+                android:text="@string/helpText"
                 android:textSize="18sp"
                 android:textColor="@color/actionBarColor"/>
 
@@ -161,6 +166,57 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/black"
+            android:alpha="0.9"/>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/aboutText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="none"
+                android:inputType="textMultiLine"
+                android:lineSpacingExtra="4dp"
+                android:padding="16dp"
+                android:scrollbars="vertical"
+                android:scrollHorizontally="false"
+                android:singleLine="false"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:layout_gravity="center" />
+
+        </ScrollView>
+
+        <Button
+            android:id="@+id/closeAbout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/close"
+            android:layout_margin="16dp"
+            android:textColor="@color/white"
+            android:background="@color/ItemBack"
+            android:layout_gravity="bottom"/>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/helpSection"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
         <View
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -168,7 +224,7 @@
             android:alpha="0.9"/>
 
         <TextView
-            android:id="@+id/aboutText"
+            android:id="@+id/helpText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="none"
@@ -180,17 +236,13 @@
             android:singleLine="false"
             android:textColor="@color/white"
             android:textSize="14sp"
-            android:layout_gravity="center"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_gravity="center" />
 
         <Button
-            android:id="@+id/closeAbout"
+            android:id="@+id/closeHelp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Close"
+            android:text="@string/close"
             android:layout_margin="16dp"
             android:textColor="@color/white"
             android:background="@color/ItemBack"

@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -13,7 +14,6 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.OnBackPressedCallback;
-import androidx.activity.OnBackPressedDispatcher;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -25,10 +25,12 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class DetailsWIndow extends AppCompatActivity {
-    private TextView nameitem, timeItem, btnReply;
-    private ImageView delViewBtn, backBtn;
-    private LinearLayout delMenu, delInfo ;
+    private TextView timeItem;
+    private LinearLayout delMenu;
 
     private String lastlatitude;
     private String lastlongtitude;
@@ -46,70 +48,65 @@ public class DetailsWIndow extends AppCompatActivity {
             return insets;
         });
 
-        delViewBtn = findViewById(R.id.delSHowBTN);
+        ImageView delViewBtn = findViewById(R.id.delSHowBTN);
         delMenu = findViewById(R.id.delMenu);
-        btnReply = findViewById(R.id.replyBtn);
-        backBtn = findViewById(R.id.backArrow);
-        delInfo = findViewById(R.id.deletInfo);
+        Button btnReply = findViewById(R.id.replyBtn);
+        ImageView backBtn = findViewById(R.id.backArrow);
+        LinearLayout delInfo = findViewById(R.id.deletInfo);
 
 
         Intent intent = getIntent();
         String name = intent.getStringExtra("name");
         String id = intent.getStringExtra("uniqueCode");
 
-        nameitem = findViewById(R.id.nameRecycleItem);
+        TextView nameitem = findViewById(R.id.nameRecycleItem);
         nameitem.setText(name);
         getTime(id);
 
-        delInfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Initialize Firestore instance
-                FirebaseFirestore db = FirebaseFirestore.getInstance();
+        delInfo.setOnClickListener(_ -> {
+            // Initialize Firestore instance
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-                // Initialize local database helper
-                DataBaseHelper dataBaseHelper = new DataBaseHelper(DetailsWIndow.this);
+            // Initialize local database helper
+            DataBaseHelper dataBaseHelper = new DataBaseHelper(DetailsWIndow.this);
 
-                // Delete from Firestore using the id as the document name
-                db.collection("locationInfo").document(id)
-                        .delete()
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                // Delete from local SQLite database after successful Firestore deletion
-                                boolean isDeleted = dataBaseHelper.deleteData(id);
+            // Delete from Firestore using the id as the document name
+            assert id != null;
+            db.collection("locationInfo").document(id)
+                    .delete()
+                    .addOnSuccessListener(_ -> {
+                        // Delete from local SQLite database after successful Firestore deletion
+                        boolean isDeleted = dataBaseHelper.deleteData(id);
 
-                                if (isDeleted) {
-                                    // Show success message and navigate to MainActivity
-                                    Toast.makeText(DetailsWIndow.this, "Record deleted successfully !", Toast.LENGTH_LONG).show();
-                                    startActivity(new Intent(DetailsWIndow.this, MainActivity.class));
-                                    finish();
-                                } else {
-                                    // Firestore success but local SQLite deletion failed
-                                    Toast.makeText(DetailsWIndow.this, "Record delete failed. ", Toast.LENGTH_LONG).show();
-                                }
+                        if (isDeleted) {
+                            // Show success message and navigate to MainActivity
+                            Toast.makeText(DetailsWIndow.this, "Record deleted successfully !", Toast.LENGTH_LONG).show();
+                            startActivity(new Intent(DetailsWIndow.this, MainActivity.class));
+                            finish();
+                        } else {
+                            // Firestore success but local SQLite deletion failed
+                            Toast.makeText(DetailsWIndow.this, "Record delete failed. ", Toast.LENGTH_LONG).show();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            // Firestore deletion failed
+                            Toast.makeText(DetailsWIndow.this, "Failed to delete failed.", Toast.LENGTH_LONG).show();
+
+                            // Attempt local deletion even if Firestore deletion fails
+                            boolean isDeleted = dataBaseHelper.deleteData(id);
+
+                            if (isDeleted) {
+                                Toast.makeText(DetailsWIndow.this, "Record deleted failed.", Toast.LENGTH_LONG).show();
+                                startActivity(new Intent(DetailsWIndow.this, MainActivity.class));
+                                finish();
+                            } else {
+                                // Both Firestore and local deletion failed
+                                Toast.makeText(DetailsWIndow.this, "Failed to delete record.", Toast.LENGTH_LONG).show();
                             }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                // Firestore deletion failed
-                                Toast.makeText(DetailsWIndow.this, "Failed to delete failed.", Toast.LENGTH_LONG).show();
-
-                                // Attempt local deletion even if Firestore deletion fails
-                                boolean isDeleted = dataBaseHelper.deleteData(id);
-
-                                if (isDeleted) {
-                                    Toast.makeText(DetailsWIndow.this, "Record deleted failed.", Toast.LENGTH_LONG).show();
-                                    startActivity(new Intent(DetailsWIndow.this, MainActivity.class));
-                                    finish();
-                                } else {
-                                    // Both Firestore and local deletion failed
-                                    Toast.makeText(DetailsWIndow.this, "Failed to delete record.", Toast.LENGTH_LONG).show();
-                                }
-                            }
-                        });
-            }
+                        }
+                    });
         });
 
 
@@ -212,7 +209,8 @@ public class DetailsWIndow extends AppCompatActivity {
                             String time = documentSnapshot.getString("time");
                             double latitude = documentSnapshot.getDouble("latitude");
                             double longtitude = documentSnapshot.getDouble("longitude");
-                            timeItem.setText(time);
+                            String convertedTime = convertTo12HourFormat(time);
+                            timeItem.setText(convertedTime);
                             lastlongtitude = String.valueOf(longtitude);
                             lastlatitude = String.valueOf(latitude);
                         }else {
@@ -224,6 +222,22 @@ public class DetailsWIndow extends AppCompatActivity {
                 });
 
     }
+
+    private String convertTo12HourFormat(String timestamp) {
+        try {
+            // Parse the full timestamp (adjust the format if needed, e.g., "yyyy-MM-dd'T'HH:mm:ss")
+            SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", java.util.Locale.getDefault());
+            Date date = inputFormat.parse(timestamp);
+
+            // Format to desired output (date + 12-hour time)
+            SimpleDateFormat outputFormat = new SimpleDateFormat("MMM dd, yyyy hh:mm a", java.util.Locale.getDefault());
+            return outputFormat.format(date); // Return formatted date and time
+        } catch (Exception e) {
+            e.printStackTrace();
+            return timestamp; // Return original timestamp if parsing fails
+        }
+    }
+
 
 
 }
