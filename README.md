@@ -43,7 +43,7 @@ A parental control application designed to help parents  track their children's 
 
 ## Privacy Policy
 
-Our privacy policy explains how user data is collected, stored, and used. [Read it here](https://github.com/Dum1du/Fy-FoundYou.the.parent.controll/blob/main/docs/Privacy_Policy.html).
+Our privacy policy explains how user data is collected, stored, and used. [Read it here](https://github.com/Dum1du/Fy-FoundYou.the.parent.controll/blob/989cfa27ac940e14bbdd0fb304c2a31f38f98e36/docs/Privacy_Policy.html).
 
 ## Terms and Conditions
 
