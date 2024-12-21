@@ -1,4 +1,4 @@
-﻿# Fy-FoundYou.the.parent.controll
+﻿# Fy-FoundYou.the.parent.control
 
 A parental control application designed to help parents  track their children's device effectively.
 
