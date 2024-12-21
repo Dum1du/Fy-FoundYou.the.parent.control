@@ -58,7 +58,7 @@ Please review our terms and conditions [here](https://dum1du.github.io/Fy-FoundY
 
 ## Authors
 
-- **Your Name** - Creator and Initial Development - [Dum1du](https://github.com/Dum1du)
+- Creator and Initial Development - [GhostByte](https://github.com/Dum1du)
 
 ## License
 
