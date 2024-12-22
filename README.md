@@ -47,7 +47,7 @@ Our privacy policy explains how user data is collected, stored, and used. [Read 
 
 ## Terms and Conditions
 
-Please review our terms and conditions [here](https://dum1du.github.io/Fy-FoundYou.the.parent.controll/Terms_and_Conditions.html).
+Please review our terms and conditions [here](https://dum1du.github.io/Fy-FoundYou.the.parent.control/Terms_and_Conditions.html).
 
 
 ## Version History
