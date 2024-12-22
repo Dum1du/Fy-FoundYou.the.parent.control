@@ -1,4 +1,4 @@
-﻿# Fy-FoundYou.the.parent.controll
+﻿# Fy-FoundYou.the.parent.control
 
 A parental control application designed to help parents  track their children's device effectively.
 
@@ -43,11 +43,11 @@ A parental control application designed to help parents  track their children's 
 
 ## Privacy Policy
 
-Our privacy policy explains how user data is collected, stored, and used. [Read it here](https://dum1du.github.io/Fy-FoundYou.the.parent.controll/Privacy_Policy.html).
+Our privacy policy explains how user data is collected, stored, and used. [Read it here](https://dum1du.github.io/Fy-FoundYou.the.parent.control/Privacy_Policy.html).
 
 ## Terms and Conditions
 
-Please review our terms and conditions [here](https://dum1du.github.io/Fy-FoundYou.the.parent.controll/Terms_and_Conditions.html).
+Please review our terms and conditions [here](https://dum1du.github.io/Fy-FoundYou.the.parent.control/Terms_and_Conditions.html).
 
 
 ## Version History
@@ -58,7 +58,7 @@ Please review our terms and conditions [here](https://dum1du.github.io/Fy-FoundY
 
 ## Authors
 
-- **Your Name** - Creator and Initial Development - [Dum1du](https://github.com/Dum1du)
+- Creator and Initial Development - [GhostByte](https://github.com/Dum1du)
 
 ## License
 
