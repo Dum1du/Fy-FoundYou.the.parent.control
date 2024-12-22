@@ -179,7 +179,28 @@ public class MainActivity extends AppCompatActivity {
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                finishAffinity();
+                int about = aboutApp.getVisibility();
+                int help = helpApp.getVisibility();
+                int shade = shader.getVisibility();
+
+                if (about == View.VISIBLE){
+                    aboutApp.setVisibility(View.GONE);
+                    return;
+                }
+                if (shade == View.VISIBLE){
+                    hideMenu(sideMenu);
+                    shader.setVisibility(View.GONE);
+                    isMenuOpened = false;
+
+                    return;
+                }
+
+                if (help == View.VISIBLE){
+                    helpApp.setVisibility(View.GONE);
+                }else {
+                    finishAffinity();
+                }
+
             }
         });
 

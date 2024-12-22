@@ -105,12 +105,14 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginStart="10dp"
+                android:contentDescription="@string/smileface"
                 android:src="@drawable/grinning_face" />
 
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginStart="5dp"
+                android:contentDescription="@string/handdownimoji"
                 android:src="@drawable/backhand_down" />
 
         </LinearLayout>
@@ -153,34 +155,33 @@
 
     <LinearLayout
         android:id="@+id/delMenu"
-        android:translationX="500dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:background="@color/SideMenuColor"
+        android:orientation="vertical"
+        android:translationX="500dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/actionBar">
 
         <LinearLayout
             android:id="@+id/deletInfo"
-            android:padding="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="10dp">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/delete"
-                />
+                android:src="@drawable/delete" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="5dp"
                 android:text="Delete Info"
-                android:textSize="18sp"
-                android:textColor="@color/actionBarColor"/>
+                android:textColor="@color/actionBarColor"
+                android:textSize="18sp" />
 
         </LinearLayout>
     </LinearLayout>

@@ -6,8 +6,8 @@
     <b>Version:</b> 1.0<br /><br />
     <b>Purpose:</b><br />FoundYou helps parents track and monitor their child\'s safety by providing real-time location updates and parental controls.
     <br /><br /><b>Developer:</b><br />Developed by GhostByte.<br />
-    <b>Privacy:</b><br />Your privacy is important to us. For detailed information on how we handle your data, please read our <a href="https://dum1du.github.io/Fy-FoundYou.the.parent.controll/Privacy_Policy.html">Privacy Policy</a>.<br />
-    <br /><b>Terms:</b><br />By using this app, you agree to our <a href="https://dum1du.github.io/Fy-FoundYou.the.parent.controll/Terms_and_Conditions.html">Terms and Conditions</a>.<br /><br />
+    <b>Privacy:</b><br />Your privacy is important to us. For detailed information on how we handle your data, please read our <a href="https://dum1du.github.io/Fy-FoundYou.the.parent.control/Privacy_Policy.html">Privacy Policy</a>.<br />
+    <br /><b>Terms:</b><br />By using this app, you agree to our <a href="https://dum1du.github.io/Fy-FoundYou.the.parent.control/Terms_and_Conditions.html">Terms and Conditions</a>.<br /><br />
     <b>Acknowledgments:</b><br />Built using Google Maps and Fused Location API.<br />
     <br />© 2024 FoundYou. All Rights Reserved.
 
@@ -46,6 +46,8 @@
     <string name="addbutton">addButton</string>
     <string name="close">Close</string>
     <string name="menubutton">menuButton</string>
+    <string name="smileface">smileFace</string>
+    <string name="handdownimoji">handDownImoji</string>
 
 
 </resources>

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -62,6 +63,8 @@ public class DetailsWIndow extends AppCompatActivity {
         TextView nameitem = findViewById(R.id.nameRecycleItem);
         nameitem.setText(name);
         getTime(id);
+
+
 
         delInfo.setOnClickListener(_ -> {
             // Initialize Firestore instance

@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -23,6 +24,7 @@ public class DataEntryActivity extends AppCompatActivity {
     private EditText name, uniqueCode;
     private Button saveBTN;
     private PrefManager prefManager;
+    private FrameLayout progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,7 @@ public class DataEntryActivity extends AppCompatActivity {
             return insets;
         });
 
+        progressBar = findViewById(R.id.loadingIcon);
         prefManager = new PrefManager(this);
         dataBaseHelper = new DataBaseHelper(this);
         name = findViewById(R.id.userNAmeEditText);
@@ -60,8 +63,11 @@ public class DataEntryActivity extends AppCompatActivity {
         saveBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressBar.setVisibility(View.VISIBLE);
+
                 String uniqueFb = uniqueCode.getText().toString().trim();
                 if (uniqueFb.isEmpty()) {
+                    progressBar.setVisibility(View.GONE);
                     Toast.makeText(DataEntryActivity.this, "UniqueCode can't be empty", Toast.LENGTH_LONG).show();
                     return;
                 }
@@ -78,12 +84,15 @@ public class DataEntryActivity extends AppCompatActivity {
                                 if (documentSnapshot.exists()) {
                                     saveUser();
                                     startActivity(new Intent(DataEntryActivity.this, MainActivity.class));
+                                    progressBar.setVisibility(View.GONE);
                                     finish();
 
                                 } else {
+                                    progressBar.setVisibility(View.GONE);
                                     Toast.makeText(DataEntryActivity.this, "Please check your UNIQUE CODE again!", Toast.LENGTH_LONG).show();
                                 }
                             } else {
+                                progressBar.setVisibility(View.GONE);
                                 Log.w("Firestore", "Error checking UniqueCode", task.getException());
                                 Toast.makeText(DataEntryActivity.this, "Error checking UniqueCode", Toast.LENGTH_LONG).show();
                             }
