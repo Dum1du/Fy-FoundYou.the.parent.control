@@ -11,8 +11,8 @@ android {
         applicationId = "com.ghost_byte.fy_foundyoutheparentcontroll"
         minSdk = 24
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 2
+        versionName = "1.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -47,8 +47,10 @@ dependencies {
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 
+    implementation ("com.google.android.gms:play-services-base:18.2.0")
     implementation ("com.google.android.gms:play-services-maps:19.0.0")
     // https://mvnrepository.com/artifact/com.google.firebase/firebase-firestore
     implementation("com.google.firebase:firebase-firestore:25.1.0")
+
 
 }

@@ -22,7 +22,6 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -54,7 +53,6 @@ public class DetailsWIndow extends AppCompatActivity {
         Button btnReply = findViewById(R.id.replyBtn);
         ImageView backBtn = findViewById(R.id.backArrow);
         LinearLayout delInfo = findViewById(R.id.deletInfo);
-
 
         Intent intent = getIntent();
         String name = intent.getStringExtra("name");

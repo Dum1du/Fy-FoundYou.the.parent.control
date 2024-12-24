@@ -84,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
         TextView aboutTextShow = findViewById(R.id.aboutText);
         shader = findViewById(R.id.shaderId);
 
+
         //actual showing about layer sections
         aboutApp = findViewById(R.id.aboutSection);
         closeAboutBtn = findViewById(R.id.closeAbout);

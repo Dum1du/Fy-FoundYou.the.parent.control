@@ -46,6 +46,8 @@ public class DataEntryActivity extends AppCompatActivity {
 
         boolean isFIrstTIme = getIntent().getBooleanExtra("isFistTimeLaunch", false);
 
+
+
         getOnBackPressedDispatcher().addCallback(new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
