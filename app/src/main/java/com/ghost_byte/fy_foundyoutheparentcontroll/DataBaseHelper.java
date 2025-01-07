@@ -46,11 +46,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return db.insert(TABLE_NAME, null, values);
     }
 
+    //get data
     public Cursor getAllData() {
         SQLiteDatabase db = this.getReadableDatabase();
         return db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
     }
 
+    //delete data
     public boolean deleteData(String uniqueCode){
         SQLiteDatabase db = this.getWritableDatabase();
         int result = db.delete(TABLE_NAME, UNIQUE_CODE + "=?", new String[]{uniqueCode});
