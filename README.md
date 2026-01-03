@@ -67,5 +67,5 @@ This project is licensed under the [MIT License](LICENSE) - see the LICENSE file
 ## Acknowledgments
 
 - Thanks to the [Firebase](https://firebase.google.com/) and [Google Maps SDK](https://developers.google.com/maps) teams for their incredible tools.
-- Special thanks to [Mentors/Contributors] for their valuable input during development.
+
 
